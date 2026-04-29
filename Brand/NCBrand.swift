@@ -7,7 +7,9 @@ import NextcloudKit
 
 let userAgent: String = {
     let appVersion: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-    // Original Nextcloud useragent "Mozilla/5.0 (iOS) Nextcloud-iOS/\(appVersion)-Nextcloud"
+    // VidaCloud useragent — keeps "Nextcloud-iOS/<ver>" so the server-side
+    // sync compatibility checks still match, and appends "-VidaCloud" so
+    // log analytics on our side can distinguish forked-client traffic.
     let suffixBrand = NCBrandOptions.shared.brandUserAgent.isEmpty ? "" : "-\(NCBrandOptions.shared.brandUserAgent)"
     return "Mozilla/5.0 (iOS) Nextcloud-iOS/\(appVersion)\(suffixBrand)"
 }()
@@ -23,26 +25,27 @@ let userAgent: String = {
 final class NCBrandOptions: @unchecked Sendable {
     static let shared = NCBrandOptions()
 
-    var brand: String = "Nextcloud"
-    var brandUserAgent: String = ""
-    var textCopyrightNextcloudiOS: String = "Nextcloud Matheria for iOS %@ © 2026"
-    var textCopyrightNextcloudServer: String = "Nextcloud Server %@"
-    var loginBaseUrl: String = "https://cloud.nextcloud.com"
+    var brand: String = "VidaCloud"
+    var brandUserAgent: String = "VidaCloud"
+    var textCopyrightNextcloudiOS: String = "Vida Cloud for iOS %@ © Vida Design 2026"
+    var textCopyrightNextcloudServer: String = "Vida Cloud Server %@"
+    var loginBaseUrl: String = "https://vidatools.com/cloud"
     var pushNotificationServerProxy: String = ""
-    var linkLoginHost: String = "https://nextcloud.com/install"
-    var linkloginPreferredProviders: String = "https://nextcloud.com/signup-ios"
-    var webLoginAutenticationProtocol: String = "nc://"                                        // example "abc://"
-    var privacy: String = "https://nextcloud.com/privacy"
-    var sourceCode: String = "https://github.com/nextcloud/ios"
+    var linkLoginHost: String = "https://vidatools.com/cloud"
+    var linkloginPreferredProviders: String = "https://vidatools.com"
+    var webLoginAutenticationProtocol: String = "vc://"                                        // Vida Cloud URL scheme — must match Info.plist CFBundleURLSchemes
+    var privacy: String = "https://vidatools.com/privacy"
+    var sourceCode: String = "https://github.com/gandfrey/vida-cloud-ios"
     var mobileconfig: String = "/remote.php/dav/provisioning/apple-provisioning.mobileconfig"
-    var appStoreUrl: String = "https://apps.apple.com/in/app/nextcloud/id1125420102"
+    // Update with Vida Cloud's App Store URL once listed.
+    var appStoreUrl: String = ""
 
     // Auto Upload default folder
     var folderDefaultAutoUpload: String = "Photos"
 
-    // Capabilities Group
-    var capabilitiesGroup: String = "group.it.twsweb.Crypto-Cloud"
-    var capabilitiesGroupApps: String = "group.com.nextcloud.apps"
+    // Capabilities Group — must match the App Group registered in Vida's Apple Dev portal.
+    var capabilitiesGroup: String = "group.com.vidatools.cloud"
+    var capabilitiesGroupApps: String = "group.com.vidatools.cloud.apps"
 
     // BRAND ONLY
     var use_AppConfig: Bool = false                                                         // Don't touch me !!
@@ -116,11 +119,12 @@ final class NCBrandOptions: @unchecked Sendable {
             }
         }
 
+        // Vida Cloud uses the server's own notify_push relay by default.
+        // To stand up a private push proxy, set pushNotificationServerProxy
+        // above to e.g. "https://push.vidatools.com".
         if pushNotificationServerProxy.isEmpty,
             brand == "Nextcloud" {
             pushNotificationServerProxy = "https://push-notifications.nextcloud.com"
-            // DEBUG SERVER PUSH
-            // pushNotificationServerProxy = "https://c0004.customerpush.nextcloud.com"
         }
     }
 
@@ -148,8 +152,8 @@ final class NCBrandOptions: @unchecked Sendable {
 final class NCBrandColor: @unchecked Sendable {
     static let shared = NCBrandColor()
 
-    // This is rewrited from customet theme, default is Nextcloud color
-    let customer: UIColor = UIColor(red: 0.0 / 255.0, green: 130.0 / 255.0, blue: 201.0 / 255.0, alpha: 1.0)         // Nextcloud : #0082C9
+    // Default brand color — overridden by server theming if use_themingColor is true.
+    let customer: UIColor = UIColor(red: 107.0 / 255.0, green: 143.0 / 255.0, blue: 113.0 / 255.0, alpha: 1.0)       // Vida sage : #6B8F71
     var customerText: UIColor = .white
 
     // INTERNAL DEFINE COLORS

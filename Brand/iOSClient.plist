@@ -4,15 +4,15 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>com.nextcloud.refreshTask</string>
-		<string>com.nextcloud.processingTask</string>
+		<string>com.vidatools.cloud.refreshTask</string>
+		<string>com.vidatools.cloud.processingTask</string>
 	</array>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Nextcloud</string>
+	<string>Vida Cloud</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -33,10 +33,11 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>it.twsweb.Nextcloud</string>
+			<string>com.vidatools.cloud.ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>nextcloud</string>
+				<string>vc</string>
+				<string>vidacloud</string>
 			</array>
 		</dict>
 	</array>
